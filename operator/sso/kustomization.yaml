@@ -11,9 +11,9 @@ configMapGenerator:
 - name: catalog
   files:
   - catalog.yaml
-# - name: rbac-policy
-#   files:
-#   - rbac-policy.csv
+- name: rbac-policy
+  files:
+  - rbac-policy.csv
 secretGenerator:
 - name: secret-rhdh
   envs:

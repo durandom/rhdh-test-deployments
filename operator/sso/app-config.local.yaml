@@ -93,12 +93,11 @@ catalog:
 #         frequency: { hours: 1 }
 #         timeout: { minutes: 50 }
 
-# permission:
-#   enabled: true
-#   rbac:
-#     policies-csv-file: ./rbac-policy.csv
-#     policyFileReload: true
-#     admin:
-#       users:
-#         - name: user:default/durandom
-#         - name: user:default/goern
+permission:
+  enabled: true
+  rbac:
+    policies-csv-file: ./rbac-policy.csv
+    policyFileReload: true
+    admin:
+      users:
+        - name: user:default/admin

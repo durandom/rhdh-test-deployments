@@ -1,7 +1,22 @@
 apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: default
+  description: Default Group
+spec:
+  type: team
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
 kind: User
 metadata:
-  name: durandom
+  name: user
 spec:
-  memberOf: [default]
+  memberOf: [group:default]
 ---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
+  name: admin
+spec:
+  memberOf: [group:default]

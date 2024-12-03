@@ -14,8 +14,7 @@ spec:
     extraFiles:
       configMaps:
         - name: catalog
-      # configMaps:
-      #   - name: rbac-policy
+        - name: rbac-policy
       # secrets:
       #   - name: github-app-credentials
       #     key: github-app-credentials.yaml

@@ -112,20 +112,38 @@ kind: KeycloakUser
 metadata:
   labels:
     app: sso
-  name: rhdh-user1
+  name: rhdh-user
 spec:
   realmSelector:
     matchLabels:
       app: rhdh
   user:
-    email: user1@example.com
-    emailVerified: false
+    username: user
     enabled: true
     firstName: John
-    id: user1
     lastName: Doe
-    username: user1
     credentials:
     - type: "password"
-      value: "12345"
+      value: "user"
+
+---
+
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakUser
+metadata:
+  labels:
+    app: sso
+  name: rhdh-admin
+spec:
+  realmSelector:
+    matchLabels:
+      app: rhdh
+  user:
+    username: admin
+    enabled: true
+    firstName: John
+    lastName: Doe
+    credentials:
+    - type: "password"
+      value: "admin"
 
