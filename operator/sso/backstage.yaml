@@ -2,3 +2,30 @@ apiVersion: rhdh.redhat.com/v1alpha2
 kind: Backstage
 metadata:
   name: rhdh
+spec:
+  application:
+    dynamicPluginsConfigMapName: dynamic-plugins
+    appConfig:
+      configMaps:
+        - name: app-config-rhdh
+    extraEnvs:
+      secrets:
+        - name: secret-rhdh
+    extraFiles:
+      configMaps:
+        - name: catalog
+      # configMaps:
+      #   - name: rbac-policy
+      # secrets:
+      #   - name: github-app-credentials
+      #     key: github-app-credentials.yaml
+  deployment:
+    patch:
+      spec:
+        template:
+          spec:
+            volumes:
+              - $patch: replace
+                name: dynamic-plugins-root
+                persistentVolumeClaim:
+                  claimName: dynamic-plugins-root

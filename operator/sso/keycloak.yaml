@@ -1,0 +1,131 @@
+apiVersion: keycloak.org/v1alpha1
+kind: Keycloak
+metadata:
+  name: rhdh-keycloak
+  labels:
+    app: sso
+spec:
+  externalAccess:
+    enabled: true
+  instances: 1
+  keycloakDeploymentSpec:
+    imagePullPolicy: Always
+  postgresDeploymentSpec:
+    imagePullPolicy: Always
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakRealm
+metadata:
+  name: rhdh-realm
+  labels:
+    app: rhdh
+spec:
+  instanceSelector:
+    matchLabels:
+      app: sso
+  realm:
+    id: rhdh
+    realm: rhdh
+    enabled: true
+    displayName: RHDH Realm
+    # clients:
+    #   - clientId: rhdh
+    #     serviceAccountsEnabled: true
+    #     protocol: openid-connect
+    #     publicClient: false
+    #     rootUrl: https://backstage-rhdh-rhdh-simple.apps-crc.testing
+    #     redirectUris:
+    #       - https://backstage-rhdh-rhdh-simple.apps-crc.testing/*
+    #     webOrigins:
+    #       - https://backstage-rhdh-rhdh-simple.apps-crc.testing
+    #     roles:
+    #       realm:
+    #       - clientRole: false
+    #         composite: true
+    #         composites:
+    #           client:
+    #             realm-management:
+    #             - query-users
+    #             - query-clients
+    #             - view-users
+    #             - query-groups
+    # users:
+    #   - lastName: hild
+    #     enabled: true
+    #     email: user@example.com
+    #     emailVerified: false
+    #     firstName: Marcel
+    #     id: durandom
+    #     username: durandom
+---
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakClient
+metadata:
+  name: rhdh-client
+  labels:
+    app: sso
+spec:
+  realmSelector:
+    matchLabels:
+      app: rhdh
+  client:
+    clientId: rhdh
+    protocol: openid-connect
+    publicClient: false
+    rootUrl: https://backstage-rhdh-rhdh-simple.apps-crc.testing
+    webOrigins:
+      - https://backstage-rhdh-rhdh-simple.apps-crc.testing
+    redirectUris:
+      - "https://backstage-rhdh-rhdh-simple.apps-crc.testing/api/auth/oidc/handler/frame"
+    directAccessGrantsEnabled: true
+    serviceAcountsEnabled: true
+    standardFlowEnabled: true
+    fullScopeAllowed: true
+    defaultClientScopes:
+      - "web-origins"
+      - "acr"
+      - "roles"
+      - "profile"
+      - "email"
+    optionalClientScopes:
+      - "address"
+      - "phone"
+      - "offline_access"
+      - "microprofile-jwt"
+    roles:
+      realm:
+      - clientRole: false
+        composite: true
+        composites:
+          client:
+            realm-management:
+            - query-users
+            - query-clients
+            - view-users
+            - query-groups
+---
+# https://docs.redhat.com/en/documentation/red_hat_single_sign-on/7.6/html/server_installation_and_configuration_guide/operator#user-cr
+# You can update properties in the YAML file and changes appear in the Red Hat Single Sign-On admin console, however changes to the admin console do not update the custom resource.
+# Be aware that the same applies for the credentials. If the credentials field is defined, a user’s credentials will always match the value set in the CR. In other words, if a user changes password via the Account Console, the Operator will reset it in order to match the value set in the CR.
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakUser
+metadata:
+  labels:
+    app: sso
+  name: rhdh-user1
+spec:
+  realmSelector:
+    matchLabels:
+      app: rhdh
+  user:
+    email: user1@example.com
+    emailVerified: false
+    enabled: true
+    firstName: John
+    id: user1
+    lastName: Doe
+    username: user1
+    credentials:
+    - type: "password"
+      value: "12345"
+

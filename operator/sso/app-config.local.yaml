@@ -1,9 +1,56 @@
+app:
+  title: Red Hat Developer Hub
+  baseUrl: ${RHDH_URL}
+
 auth:
+  session:
+    secret: ${BACKEND_SECRET}
+  environment: production
   providers:
-    github:
-      development:
-        clientId: ${AUTH_GITHUB_CLIENT_ID}
-        clientSecret: ${AUTH_GITHUB_CLIENT_SECRET}
+    oidc:
+      production:
+        metadataUrl: ${AUTH_OIDC_METADATA_URL}
+        clientId: ${AUTH_OIDC_CLIENT_ID}
+        clientSecret: ${AUTH_OIDC_CLIENT_SECRET}
+        callbackUrl: https://backstage-rhdh-rhdh-simple.apps-crc.testing/api/auth/oidc/handler/frame
+        prompt: auto
+        signIn:
+          resolvers:
+            - resolver: preferredUsernameMatchingUserEntityName
+            #    - resolver: emailMatchingUserEntityProfileEmail
+            #    - resolver: emailLocalPartMatchingUserEntityName
+
+dangerouslyAllowSignInWithoutUserInCatalog: true
+signInPage: oidc
+
+
+backend:
+  baseUrl: ${RHDH_URL}
+  cors:
+    origin: ${RHDH_URL}
+
+catalog:
+  locations:
+    - type: file
+      target: /opt/app-root/src/catalog.yaml
+      rules:
+        - allow: [User, Group]
+  # providers:
+  #   keycloakOrg:
+  #     default:
+  #       baseUrl: ${KEYCLOAK_URL}
+  #       loginRealm: rhdh # ${KEYCLOAK_REALM} TODO enable via secret
+  #       realm: rhdh # ${KEYCLOAK_REALM} TODO enable via secret
+  #       clientId: ${AUTH_OIDC_CLIENT_ID} # ${KEYCLOAK_CLIENTID} TODO enable via secret
+  #       clientSecret: ${AUTH_OIDC_CLIENT_SECRET} # ${KEYCLOAK_CLIENTSECRET} TODO enable via secret
+  #       # highlight-add-start
+  #       schedule: # optional; same options as in TaskScheduleDefinition
+  #         # supports cron, ISO duration, "human duration" as used in code
+  #         frequency: { minutes: 1 }
+  #         # supports ISO duration, "human duration" as used in code
+  #         timeout: { minutes: 1 }
+  #         initialDelay: { seconds: 15 }
+  #         # highlight-add-end
 
 # catalog:
 #   rules:

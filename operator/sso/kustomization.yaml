@@ -5,21 +5,23 @@ configMapGenerator:
 - name: app-config-rhdh
   files:
   - app-config.local.yaml
-# - name: dynamic-plugins
-#   files:
-#   - dynamic-plugins.yaml
+- name: dynamic-plugins
+  files:
+  - dynamic-plugins.yaml
+- name: catalog
+  files:
+  - catalog.yaml
 # - name: rbac-policy
 #   files:
 #   - rbac-policy.csv
-# secretGenerator:
-# - name: secret-rhdh
-#   envs:
-#   - secret.env
-# - name: github-app-credentials
-#   files:
-#   - github-app-credentials.yaml
+secretGenerator:
+- name: secret-rhdh
+  envs:
+  - secret.env
 resources:
 - namespace.yaml
 - backstage.yaml
+- keycloak.yaml
+- pvc-dynamic-plugins-root.yaml
 configurations:
 - kustomizeconfig/backstage.yaml
