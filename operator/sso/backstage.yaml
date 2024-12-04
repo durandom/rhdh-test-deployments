@@ -15,6 +15,7 @@ spec:
       configMaps:
         - name: catalog
         - name: rbac-policy
+        - name: conditional-policies
       # secrets:
       #   - name: github-app-credentials
       #     key: github-app-credentials.yaml

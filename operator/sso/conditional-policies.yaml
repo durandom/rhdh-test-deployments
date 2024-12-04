@@ -1,0 +1,15 @@
+---
+result: CONDITIONAL
+roleEntityRef: 'role:group/marketplace'
+pluginId: catalog
+resourceType: catalog-entity
+permissionMapping:
+  - read
+  - update
+  - delete
+conditions:
+  rule: IS_ENTITY_OWNER
+  resourceType: catalog-entity
+  params:
+    claims:
+      - 'group:default/marketplace'

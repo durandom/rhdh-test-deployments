@@ -125,9 +125,26 @@ spec:
     credentials:
     - type: "password"
       value: "user"
-
 ---
-
+apiVersion: keycloak.org/v1alpha1
+kind: KeycloakUser
+metadata:
+  labels:
+    app: sso
+  name: rhdh-marketplace
+spec:
+  realmSelector:
+    matchLabels:
+      app: rhdh
+  user:
+    username: marketplace
+    enabled: true
+    firstName: Market
+    lastName: Place
+    credentials:
+    - type: password
+      value: marketplace
+---
 apiVersion: keycloak.org/v1alpha1
 kind: KeycloakUser
 metadata:

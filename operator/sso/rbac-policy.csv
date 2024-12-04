@@ -1,4 +1,9 @@
+# Permission definitions
+# `p, <ROLE>, <PERMISSION_NAME or PERMISSION_RESOURCE_TYPE>, <PERMISSION_POLICY_ACTION>, <ALLOW or DENY>`
 g, user:default/admin, role:default/topology-viewer
 p, role:default/topology-viewer, topology.view.read, read, allow
 p, role:default/topology-viewer, kubernetes.proxy, use, allow
 p, role:default/topology-viewer, catalog-entity, read, allow
+
+g, group:default/marketplace, role:default/marketplace
+p, role:default/marketplace, catalog-entity, use, allow

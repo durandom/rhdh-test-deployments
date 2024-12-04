@@ -8,6 +8,15 @@ spec:
   children: []
 ---
 apiVersion: backstage.io/v1alpha1
+kind: Group
+metadata:
+  name: marketplace
+  description: Marketplace
+spec:
+  type: system
+  children: []
+---
+apiVersion: backstage.io/v1alpha1
 kind: User
 metadata:
   name: user
@@ -17,6 +26,28 @@ spec:
 apiVersion: backstage.io/v1alpha1
 kind: User
 metadata:
+  name: marketplace
+spec:
+  memberOf: [group:marketplace]
+---
+apiVersion: backstage.io/v1alpha1
+kind: User
+metadata:
   name: admin
 spec:
   memberOf: [group:default]
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: my-plugin
+  description: An example of a plugin.
+spec:
+  type: plugin
+  owner: group:marketplace
+  lifecycle: experimental
+  dependencies:
+    - plugin: my-api
+      version: ^1.0.0
+  config:
+    option: value
